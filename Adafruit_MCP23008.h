@@ -32,10 +32,22 @@ public:
   uint8_t readGPIO(void);
   void writeGPIO(uint8_t);
 
+  void setupInterrupts(uint8_t open, uint8_t polarity);
+  void setupInterruptPin(uint8_t p, uint8_t mode);
+  uint8_t getLastInterruptPin();
+  uint8_t getLastInterruptPinValue();
+  
  private:
   uint8_t i2caddr;
   uint8_t read8(uint8_t addr);
   void write8(uint8_t addr, uint8_t data);
+  
+  /**
+   * Utility private method to update a single bit/pin of a register
+   * reads its value, updates the particular bit, and writes its value.
+   */
+  void updateRegisterBit(uint8_t p, uint8_t pValue, uint8_t addr);
+  
 };
 
 #define MCP23008_ADDRESS 0x20
@@ -52,5 +64,7 @@ public:
 #define MCP23008_INTCAP 0x08
 #define MCP23008_GPIO 0x09
 #define MCP23008_OLAT 0x0A
+
+#define MCP23008_INT_ERR 255
 
 #endif
